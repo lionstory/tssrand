@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package tssrand;
+option go_package = "proto/;pb";
+
+enum  RandType {
+  ALL = 0;
+}
+
+enum ReplyCodeType{
+  OK = 0;
+  ERROR = 1;
+}
+
+message PrivateKey {
+  bytes PublicKey = 1;
+  bytes LambdaN = 2;
+  bytes PhiN = 3;
+}
+
+message LocalPreParams  {
+  PrivateKey PaillierSK = 1;
+  bytes NTildei = 2;
+  bytes H1i = 3; 
+  bytes H2i = 4;
+  bytes Alpha = 5;
+  bytes Beta = 6;
+  bytes P = 7;
+  bytes Q = 8;
+}
+
+message RandRequest {
+  RandType type = 1;
+}
+
+message RandReply {
+  ReplyCodeType code = 1;
+  string msg = 2;
+  LocalPreParams data = 3;
+}
+
+service Rand{
+  rpc GetRand(RandRequest) returns (RandReply) {}
+}
+
+
+
+
